@@ -35,7 +35,7 @@ This project contains the backend code for the EngageXr coding assigment.
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`SECRET=35c452171f3505f6516011ed1945212`
+`SECRET="shsh@123"`
 
 ## Run Locally
 
@@ -48,7 +48,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd engageapiend
+  cd engageXRBackedn
 ```
 
 Install dependencies
