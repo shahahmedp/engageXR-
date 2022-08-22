@@ -42,7 +42,7 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-  git clone -b main https://github.com/shahahmedp/engageapiend.git
+  git clone -b main https://github.com/shahahmedp/engageXR-.git
 ```
 
 Go to the project directory
