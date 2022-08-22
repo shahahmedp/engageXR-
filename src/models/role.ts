@@ -1,50 +1,52 @@
-'use strict';
-import {
-  Model
-} from 'sequelize';
-interface RoleAttributes{
-  id: number,
-  role: String,
-  status:String
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
+'use strict'
+import { Model } from 'sequelize'
+interface RoleAttributes {
+  id: number
+  role: String
+  status: String
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Role extends Model<RoleAttributes> 
-  implements RoleAttributes{
+  class Role extends Model<RoleAttributes> implements RoleAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    id!: number;
-    role!:String;
-    status!:String;
-    static associate(models:any) {
+    id!: number
+    role!: String
+    status!: String
+    static associate(models: any) {
       // define association here
-      Role.belongsToMany(models.User,{
-        through: 'Userrole'
+      Role.belongsToMany(models.User, {
+        through: 'Userrole',
       })
     }
   }
-  Role.init({
-    id:{
-      type: DataTypes.BIGINT,
-      allowNull:false,
-      primaryKey: true,
-      autoIncrement: true
+  Role.init(
+    {
+      id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    role:{
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique:true
-    },
-    status:{
-      type:DataTypes.STRING,
-      allowNull:false
+    {
+      sequelize,
+      modelName: 'Role',
     }
-}, {
-    sequelize,
-    modelName: 'Role',
-  });
-  return Role;
-};
+  )
+  return Role
+}

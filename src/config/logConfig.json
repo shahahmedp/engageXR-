@@ -1,9 +1,9 @@
 {
-    "file": {
-        "level": "info",
-        "filename": "../consoleLogs/cnsl.log"
-    },
-    "console": {
-        "level": "debug"
-    }
+  "file": {
+    "level": "info",
+    "filename": "../consoleLogs/cnsl.log"
+  },
+  "console": {
+    "level": "debug"
+  }
 }

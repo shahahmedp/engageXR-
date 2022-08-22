@@ -1,39 +1,40 @@
-'use strict';
-import {
-  Model
-} from  'sequelize';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use strict'
+import { Model } from 'sequelize'
 
-interface UserRoleAttribute{
-  roleId: number;
-  userId: string;
+interface UserRoleAttribute {
+  roleId: number
+  userId: string
 }
 module.exports = (sequelize: any, DataTypes: any) => {
-  class UserRole extends Model<UserRoleAttribute> 
-  implements UserRoleAttribute{
+  class UserRole extends Model<UserRoleAttribute> implements UserRoleAttribute {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    roleId!: number;
-    userId!:string;
+    roleId!: number
+    userId!: string
     static associate(models: any) {
       // define association here
     }
   }
-  UserRole.init({
-    roleId:{
-      type:DataTypes.INTEGER,
-      allowNull:false
+  UserRole.init(
+    {
+      roleId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      userId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    userId:{
-      type:DataTypes.STRING,
-      allowNull:false
+    {
+      sequelize,
+      modelName: 'Userrole',
     }
-
-  }, {
-    sequelize,
-    modelName: 'Userrole',
-  });
-  return UserRole;
-};
+  )
+  return UserRole
+}

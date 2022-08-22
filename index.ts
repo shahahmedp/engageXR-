@@ -1,70 +1,60 @@
-import express from 'express';
-import cors from 'cors';
-import 'module-alias/register';
-import db from './src/models';
-import {user} from './src/seeders/user'
-import {role} from './src/seeders/role'
-import {userrole} from './src/seeders/userrole'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-var */
+/* eslint-disable @typescript-eslint/no-var-requires */
+import express, { Request, Response } from 'express'
+import cors from 'cors'
+import 'module-alias/register'
+import db from './src/models'
+import { role } from './src/seeders/role'
 require('dotenv').config()
 
-const app=express()
+const app = express()
 //cors origin
-var corsOptions={
-    origin: "https://localhost:3002"
+var corsOptions = {
+  origin: 'https://localhost:3002',
 }
 //setting up cors origin
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 //content type= application/json ans
-app.use(express.json());
+app.use(express.json())
 //content type=h application/x-www-form-urlecoded
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }))
 
-const port =process.env.PORT|| 3001
+const port = process.env.PORT || 3001
 
 /**mapping over the user for seeders */
-const createUsers=()=>{
-    user.map(usr=>{
-        db.User.create(usr);
-    })
-}
-const createRole=()=>{
-    db.Role.findAndCountAll().then((obj: any)=>{
-      // console.log('---------------------',obj.count);
-        if(!obj.count){
-            role.map(rle=>{
-                db.Role.create(rle);
-            })
-        }    
-    })
-}
-const createUserRole=()=>{
-    userrole.map(ur=>{
-        db.Userrole.create(ur)
-    })
-}
-//createUsers()
-//createRole()
-//createUserRole()
 
+const createRole = () => {
+  db.Role.findAndCountAll().then((obj: any) => {
+    // console.log('---------------------',obj.count);
+    if (!obj.count) {
+      role.map((rle) => {
+        db.Role.create(rle)
+      })
+    }
+  })
+}
 //routes
-require('./src/routes/auth.routes')(app);
-require('./src/routes/user.routes')(app);
-require('./src/routes/company.routes')(app);
+require('./src/routes/auth.routes')(app)
+require('./src/routes/user.routes')(app)
+require('./src/routes/company.routes')(app)
 require('./src/routes/employee.routes')(app)
-//check the request 
-app.get('/role',(req: any, res: any)=>{
-    db.companies.findAll({
-    //    include:db.employee
-    }).then((result: any)=>{
-        res.send(JSON.stringify(result))
-    }).catch((err:any)=>{
-        res.send(err)
+//check the request
+app.get('/role', (req: Request, res: Response) => {
+  db.User.findAll({
+    include: db.Role,
+  })
+    .then((result: any) => {
+      res.send(JSON.stringify(result))
+    })
+    .catch((err: any) => {
+      res.send(err)
     })
 })
 //db seualize sync connection
-db.sequelize.sync().then(()=>{
-    createRole()
-    app.listen(port,()=>{
-        console.log(`1App is listenning on PORT ${port}`)
-    })
-});
+db.sequelize.sync().then(() => {
+  createRole()
+  app.listen(port, () => {
+    console.log(`1App is listenning on PORT ${port}`)
+  })
+})
