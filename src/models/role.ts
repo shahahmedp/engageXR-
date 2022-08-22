@@ -20,8 +20,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     status!: String
     static associate(models: any) {
       // define association here
-      Role.belongsToMany(models.User, {
-        through: 'Userrole',
+      Role.belongsToMany(models.user, {
+        through: 'userrole',
       })
     }
   }
@@ -45,7 +45,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: 'Role',
+      modelName: 'role',
     }
   )
   return Role

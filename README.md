@@ -151,7 +151,7 @@ All the company API requires Authorisation header containing Bearer Token(x-acce
 #### Get company by company id.
 
 ```http
-  GET http://localhost:3000/api/getbyid/cmpy/:companyId
+  GET http://localhost:3000/api/getbyid/cmpy/:name
 ```
 
 | Headers         | Type     | Description   |

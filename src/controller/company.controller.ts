@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
-import db from '@model'
-import { logger } from '@utils/logger'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
+import db from '../models'
+import { logger } from '../utils/logger'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 export class CompanyController {
   /**
@@ -22,23 +22,19 @@ export class CompanyController {
       })
       .then((cmpny: any) => {
         logger.info('company resources are stored')
-        res
-          .status(dailogue.code200.code)
-          .send({
-            status: dailogue.code200.message,
-            message: 'company Detailes added',
-            response: cmpny.data,
-          })
+        res.status(dailogue.code200.code).send({
+          status: dailogue.code200.message,
+          message: 'company Detailes added',
+          response: cmpny.data,
+        })
       })
       .catch((err: { message: any }) => {
         logger.info('company resources failed stored due to server error')
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            message:
-              err.message || 'Some error occured while creating the Tutorial .',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message:
+            err.message || 'Some error occured while creating the Tutorial .',
+        })
       })
   }
   /**
@@ -54,28 +50,22 @@ export class CompanyController {
       .update({ ...req.body }, { where: { id } })
       .then((upt: any) => {
         if (upt) {
-          res
-            .status(dailogue.code200.code)
-            .send({
-              status: dailogue.code200.message,
-              message: 'Company deatils have been updated successfully',
-            })
+          res.status(dailogue.code200.code).send({
+            status: dailogue.code200.message,
+            message: 'Company deatils have been updated successfully',
+          })
         } else {
-          res
-            .status(dailogue.code404.code)
-            .send({
-              status: dailogue.code404.message,
-              message: `id ${id} is not there`,
-            })
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `id ${id} is not there`,
+          })
         }
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            message: err.message || 'server is not working properly',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message: err.message || 'server is not working properly',
+        })
       })
   }
   /**
@@ -94,12 +84,10 @@ export class CompanyController {
           .send({ '': dailogue.code200.message, response: data })
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            messagge: err.message || 'server error',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          messagge: err.message || 'server error',
+        })
       })
   }
   /**
@@ -118,12 +106,10 @@ export class CompanyController {
             .status(dailogue.code200.code)
             .send({ status: dailogue.code200.message, message: data })
         } else {
-          res
-            .status(dailogue.code404.code)
-            .send({
-              status: dailogue.code404.message,
-              message: `id ${req.params.id} is not there`,
-            })
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `id ${req.params.id} is not there`,
+          })
         }
         res.send(data)
       })
@@ -146,37 +132,53 @@ export class CompanyController {
       .destroy({ where: { id } })
       .then((dl: any) => {
         if (dl) {
-          res
-            .status(dailogue.code200.code)
-            .send({
-              status: dailogue.code200.message,
-              message: `id ${id} was deleted`,
-            })
+          res.status(dailogue.code200.code).send({
+            status: dailogue.code200.message,
+            message: `id ${id} was deleted`,
+          })
         } else {
-          res
-            .status(dailogue.code404.code)
-            .send({
-              status: dailogue.code404.message,
-              message: `id ${id} is not there`,
-            })
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `id ${id} is not there`,
+          })
         }
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            message: err.message || 'server error',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message: err.message || 'server error',
+        })
       })
   }
-  // public static async GetEmployee(req:Request,res:Response){
-  //     db.companies.findall({
-  //         include:db.employee
-  //     }).then((user: any)=>{
-  //         res.send(JSON.stringify(user))
-  //     }).catch((err: any)=>{
-  //         res.send(err)
-  //     })
-  // }
+  /**
+   * This controller is used to store company resource info.
+   *
+   * @param req
+   * @param res
+   */
+  public static async GetEmployee(req: Request, res: Response) {
+    await db.compemp
+      .findAll({
+        where: { cmpId: req.params.name },
+      })
+      .then((user: any) => {
+        if (user) {
+          res.status(dailogue.code200.code).send({
+            status: dailogue.code200.message,
+            message: JSON.stringify(user),
+          })
+        } else {
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `${req.params.name} is not there`,
+          })
+        }
+      })
+      .catch((err: any) => {
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message: err.message || 'server error',
+        })
+      })
+  }
 }

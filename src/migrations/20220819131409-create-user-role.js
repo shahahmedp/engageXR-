@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use strict'
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('UserRoles', {
+    await queryInterface.createTable('userroles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -22,6 +24,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('UserRoles')
+    await queryInterface.dropTable('userroles')
   },
 }

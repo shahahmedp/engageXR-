@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express'
 import { validationResult } from 'express-validator'
-import { Authjwt } from '@middleware/authjwt'
-import { VerifyCompany } from '@middleware/verifyCompany'
-import { companyCheck } from '@utils/Checkdatapacket'
-import { CompanyController } from '@controller/company.controller'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
+import { Authjwt } from '../middlewares/authjwt'
+import { VerifyCompany } from '../middlewares/verifyCompany'
+import { companyCheck } from '../utils/Checkdatapacket'
+import { CompanyController } from '../controller/company.controller'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 module.exports = function (app: any) {
   app.use(function (req: Request, res: Response, next: NextFunction) {
@@ -115,8 +115,9 @@ module.exports = function (app: any) {
     CompanyController.companyDeleteById
   )
 
-  // app.get('/api/GetUserINCmp/cmpy',
-  //  [Authjwt.VerifyToken, Authjwt.isCompany||Authjwt.isAdmin],
-  //  CompanyController.GetEmployee
-  // )
+  app.get(
+    '/api/GetUserINCmp/cmpy/:name',
+    [Authjwt.VerifyToken, Authjwt.isCompany || Authjwt.isAdmin],
+    CompanyController.GetEmployee
+  )
 }

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 import { Op } from 'sequelize'
-import db from '@model'
-import { logger } from '@utils/logger'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
+import db from '../models'
+import { logger } from '../utils/logger'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 export class VerifySignUp {
   /**
@@ -13,42 +13,43 @@ export class VerifySignUp {
    * @param res
    * @param next
    */
+  /* eslint-disable */
   public static async checkDuplicatUsernameOrEmail(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
-    logger.info('check username&email in db')
-    await db.User.findOne({
-      where: { userName: req.body.username },
-    })
+    logger.info('check MIddleware username&email in db')
+
+    await db.user
+      .findOne({
+        where: { userName: req.body.username },
+      })
       .then((usr: any) => {
         if (usr) {
-          res
-            .status(dailogue.code400.code)
-            .send({
-              status: dailogue.code400.message,
-              message: 'Failed Username is already in use!',
-            })
+          res.status(dailogue.code400.code).send({
+            status: dailogue.code400.message,
+            message: 'Failed Username is already in use!',
+          })
           return
         }
         //know it check email in db
-        db.User.findOne({
-          where: {
-            email: req.body.email,
-          },
-        }).then((user: any) => {
-          if (user) {
-            res
-              .status(dailogue.code400.code)
-              .send({
+        db.user
+          .findOne({
+            where: {
+              email: req.body.email,
+            },
+          })
+          .then((user: any) => {
+            if (user) {
+              res.status(dailogue.code400.code).send({
                 status: dailogue.code400.message,
                 message: 'Failed! Email is already in use!',
               })
-            return
-          }
-          next()
-        })
+              return
+            }
+            next()
+          })
       })
       .catch((err: any) => {
         res
@@ -62,6 +63,7 @@ export class VerifySignUp {
    * @param req
    * @param res
    */
+  /* eslint-disable */
   public static async checkRoleExisted(
     req: Request,
     res: Response,
@@ -69,21 +71,20 @@ export class VerifySignUp {
   ) {
     logger.info('to check roles existeed in db')
     if (req.body.roles.length) {
-      await db.Role.findAll({
-        where: {
-          role: {
-            [Op.or]: req.body.roles,
+      await db.role
+        .findAll({
+          where: {
+            role: {
+              [Op.or]: req.body.roles,
+            },
           },
-        },
-      })
+        })
         .then(async (rl: any) => {
           if (req.body.roles.length !== rl.length) {
-            res
-              .status(dailogue.code400.code)
-              .send({
-                status: dailogue.code400.message,
-                message: `the roles ${req.body.roles} are not valid please enter valid roles`,
-              })
+            res.status(dailogue.code400.code).send({
+              status: dailogue.code400.message,
+              message: `the roles ${req.body.roles} are not valid please enter valid roles`,
+            })
           } else {
             next()
           }

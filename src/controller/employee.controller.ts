@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
-import db from '@model'
-import { logger } from '@utils/logger'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
+import db from '../models'
+import { logger } from '../utils/logger'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 export class EmployeeController {
   /**
@@ -17,20 +17,29 @@ export class EmployeeController {
       .create({
         ...req.body,
       })
-      .then((cmpny: any) => {
-        res.status(dailogue.code200.code).send({
-          status: dailogue.code200.message,
-          response: cmpny.data,
-        })
+      .then(async (cmpny: any) => {
+        await db.compemp
+          .create({
+            cmpId: req.body.cmpID,
+            userId: cmpny.id,
+          })
+          .then((rst: any) => {
+            if (rst) {
+              res.status(dailogue.code200.code).send({
+                status: dailogue.code200.message,
+                response: cmpny,
+              })
+            } else {
+              res.status(dailogue.code401.code).send(dailogue.code401.message)
+            }
+          })
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            message:
-              err.message || 'Some error occured while creating the Tutorial .',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message:
+            err.message || 'Some error occured while creating the Tutorial .',
+        })
       })
   }
   /**
@@ -57,28 +66,22 @@ export class EmployeeController {
       .then((up: any) => {
         //check id is there or not
         if (up) {
-          res
-            .status(dailogue.code200.code)
-            .send({
-              status: dailogue.code200.message,
-              message: 'employee deatils have been updated successfully',
-            })
+          res.status(dailogue.code200.code).send({
+            status: dailogue.code200.message,
+            message: 'employee deatils have been updated successfully',
+          })
         } else {
-          res
-            .status(dailogue.code404.code)
-            .send({
-              status: dailogue.code404.message,
-              message: `id ${id} is not there`,
-            })
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `id ${id} is not there`,
+          })
         }
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            message: err.message || 'server is not working properly',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message: err.message || 'server is not working properly',
+        })
       })
   }
   /**
@@ -97,12 +100,10 @@ export class EmployeeController {
           .send({ status: dailogue.code200.message, Response: data })
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            messagge: err.message || 'server error',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          messagge: err.message || 'server error',
+        })
       })
   }
   /**
@@ -121,21 +122,17 @@ export class EmployeeController {
             .status(dailogue.code200.code)
             .send({ status: dailogue.code200.message, message: data })
         } else {
-          res
-            .status(dailogue.code404.code)
-            .send({
-              status: dailogue.code404.message,
-              message: `id ${req.params.id} is not there`,
-            })
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `id ${req.params.id} is not there`,
+          })
         }
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            messagge: err.message || 'server error',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          messagge: err.message || 'server error',
+        })
       })
   }
   /**
@@ -151,28 +148,22 @@ export class EmployeeController {
       .destroy({ where: { id } })
       .then((dl: any) => {
         if (dl) {
-          res
-            .status(dailogue.code200.code)
-            .send({
-              status: dailogue.code200.message,
-              message: `id ${req.params.id} was deleted`,
-            })
+          res.status(dailogue.code200.code).send({
+            status: dailogue.code200.message,
+            message: `id ${req.params.id} was deleted`,
+          })
         } else {
-          res
-            .status(dailogue.code404.code)
-            .send({
-              status: dailogue.code404.message,
-              message: `id ${req.params.id} is not there`,
-            })
+          res.status(dailogue.code404.code).send({
+            status: dailogue.code404.message,
+            message: `id ${req.params.id} is not there`,
+          })
         }
       })
       .catch((err: { message: any }) => {
-        res
-          .status(dailogue.code500.code)
-          .send({
-            status: dailogue.code500.message,
-            message: err.message || 'server error',
-          })
+        res.status(dailogue.code500.code).send({
+          status: dailogue.code500.message,
+          message: err.message || 'server error',
+        })
       })
   }
 }

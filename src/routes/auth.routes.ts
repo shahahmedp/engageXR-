@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express'
 import { validationResult } from 'express-validator'
-import { Auth } from '@controller/auth.controller'
-import { registerCheck, signInCheck } from '@utils/Checkdatapacket'
-import { VerifySignUp } from '@middleware/verifySignUp'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
+import { Auth } from '../controller/auth.controller'
+import { registerCheck, signInCheck } from '../utils/Checkdatapacket'
+import { VerifySignUp } from '../middlewares/verifySignUp'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 module.exports = function (app: any) {
   /**

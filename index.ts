@@ -25,11 +25,11 @@ const port = process.env.PORT || 3001
 /**mapping over the user for seeders */
 
 const createRole = () => {
-  db.Role.findAndCountAll().then((obj: any) => {
+  db.role.findAndCountAll().then((obj: any) => {
     // console.log('---------------------',obj.count);
     if (!obj.count) {
       role.map((rle) => {
-        db.Role.create(rle)
+        db.role.create(rle)
       })
     }
   })
@@ -41,16 +41,18 @@ require('./src/routes/company.routes')(app)
 require('./src/routes/employee.routes')(app)
 //check the request
 app.get('/role', (req: Request, res: Response) => {
-  db.User.findAll({
-    include: db.Role,
-  })
-    .then((result: any) => {
-      res.send(JSON.stringify(result))
+  db.companies
+    .findAll({
+      include: db.employee,
+    })
+    .then((user: any) => {
+      res.send(JSON.stringify(user))
     })
     .catch((err: any) => {
       res.send(err)
     })
 })
+
 //db seualize sync connection
 db.sequelize.sync().then(() => {
   createRole()

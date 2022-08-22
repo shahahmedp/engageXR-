@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { secretKey } from '@config/auth.config'
-import db from '@model'
-import { logger } from '@utils/logger'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
-//const User = db.user;
+import { secretKey } from '../config/auth.config'
+import db from '../models'
+import { logger } from '../utils/logger'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 export class Authjwt {
   /**
@@ -24,12 +23,10 @@ export class Authjwt {
     const token = req.headers['x-access-token']
     //check token in request
     if (!token) {
-      return res
-        .status(dailogue.code403.code)
-        .send({
-          status: dailogue.code403.message,
-          message: 'no token provided!',
-        })
+      return res.status(dailogue.code403.code).send({
+        status: dailogue.code403.message,
+        message: 'no token provided!',
+      })
     }
     //verify token
     jwt.verify(token.toString(), secretKey.secret, (err, decoded) => {
@@ -53,10 +50,11 @@ export class Authjwt {
    */
   public static async isAdmin(req: Request, res: Response, next: NextFunction) {
     logger.info('isadmin middleare was called to check previlage')
-    db.User.findAll({
-      where: { id: req.body.userId.id },
-      include: db.Role,
-    })
+    db.user
+      .findAll({
+        where: { id: req.body.userId.id },
+        include: db.role,
+      })
       .then((isad: any) => {
         //compare role from db to roles given by user
         for (let i = 0; i < isad[0].roles.length; i++) {
@@ -65,12 +63,10 @@ export class Authjwt {
             return
           }
         }
-        res
-          .status(dailogue.code403.code)
-          .send({
-            status: dailogue.code403.message,
-            message: 'your dont have admin previlages',
-          })
+        res.status(dailogue.code403.code).send({
+          status: dailogue.code403.message,
+          message: 'your dont have admin previlages',
+        })
         return
       })
       .catch((err: any) => {
@@ -106,12 +102,10 @@ export class Authjwt {
             return
           }
         }
-        res
-          .status(dailogue.code403.code)
-          .send({
-            status: dailogue.code403.message,
-            message: 'your dont have Company previlages',
-          })
+        res.status(dailogue.code403.code).send({
+          status: dailogue.code403.message,
+          message: 'your dont have Company previlages',
+        })
         return
       })
       .catch((err: any) => {
@@ -133,10 +127,11 @@ export class Authjwt {
   ) {
     logger.info('isEmployee middleare was called to check previlage')
 
-    db.User.findAll({
-      where: { id: req.body.userId.id },
-      include: db.Role,
-    })
+    db.user
+      .findAll({
+        where: { id: req.body.userId.id },
+        include: db.role,
+      })
       .then((isad: any) => {
         //compare db and request roles
         for (let i = 0; i < isad[0].roles.length; i++) {
@@ -145,12 +140,10 @@ export class Authjwt {
             return
           }
         }
-        res
-          .status(dailogue.code403.code)
-          .send({
-            status: dailogue.code403.message,
-            message: 'your dont have user previlages',
-          })
+        res.status(dailogue.code403.code).send({
+          status: dailogue.code403.message,
+          message: 'your dont have user previlages',
+        })
         return
       })
       .catch((err: any) => {

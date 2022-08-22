@@ -34,13 +34,7 @@
     "winston": "^3.8.1"
   },
   "_moduleAliases": {
-    "@root": ".",
-    "@utils": "build/utils",
-    "@config": "build/config",
-    "@model": "build/models",
-    "@constant": "build/constants",
-    "@controller": "build/controller",
-    "@middleware": "build/middlewares"
+    "@root": "."
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

@@ -44,7 +44,7 @@ export const employeeCheck = [
   check('lastName', 'last Name length should be 10 to 20 characters').isLength({
     max: 20,
   }),
-  check('cmp', 'should be string').isString(),
+  check('cmpID', 'should be string').isString(),
   check('phone', 'please enter 10 digit number').isLength({ min: 5, max: 10 }),
   //.match(/^\d{10}$/)
 ]

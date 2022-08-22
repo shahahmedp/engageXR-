@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
-import db from '@model'
-import { logger } from '@utils/logger'
-import { StatusConstants as dailogue } from '@constant/StatusConstants'
+import db from '../models'
+import { logger } from '../utils/logger'
+import { StatusConstants as dailogue } from '../constants/StatusConstants'
 
 export class VerifyCompany {
   /**
@@ -24,12 +24,10 @@ export class VerifyCompany {
       })
       .then((usr: any) => {
         if (usr) {
-          res
-            .status(dailogue.code400.code)
-            .send({
-              status: dailogue.code400.message,
-              message: 'Failed Username is already in use!',
-            })
+          res.status(dailogue.code400.code).send({
+            status: dailogue.code400.message,
+            message: 'Failed Username is already in use!',
+          })
           return
         }
         //then we are checking email existence
@@ -41,12 +39,10 @@ export class VerifyCompany {
           })
           .then((user: any) => {
             if (user) {
-              res
-                .status(dailogue.code400.code)
-                .send({
-                  status: dailogue.code400.message,
-                  message: 'Failed! Email is already in use!',
-                })
+              res.status(dailogue.code400.code).send({
+                status: dailogue.code400.message,
+                message: 'Failed! Email is already in use!',
+              })
               return
             }
             next()

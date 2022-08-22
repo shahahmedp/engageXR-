@@ -3,38 +3,39 @@
 'use strict'
 import { Model } from 'sequelize'
 
-interface UserRoleAttribute {
-  roleId: number
+interface CompEmpAttribute {
+  cmpId: string
   userId: string
 }
 module.exports = (sequelize: any, DataTypes: any) => {
-  class UserRole extends Model<UserRoleAttribute> implements UserRoleAttribute {
+  class CompEmp extends Model<CompEmpAttribute> implements CompEmpAttribute {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    roleId!: number
+    cmpId!: string
     userId!: string
     static associate(models: any) {
       // define association here
     }
   }
-  UserRole.init(
+  CompEmp.init(
     {
-      roleId: {
-        type: DataTypes.INTEGER,
+      cmpId: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       userId: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
     },
     {
       sequelize,
-      modelName: 'userrole',
+      modelName: 'compemp',
     }
   )
-  return UserRole
+  return CompEmp
 }
