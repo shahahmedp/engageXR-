@@ -35,7 +35,7 @@ This project contains the backend code for the EngageXr coding assigment.
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`SECRET="shsh@123"`
+`SECRET="shah@123"`
 
 ## Run Locally
 
