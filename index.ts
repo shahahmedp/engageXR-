@@ -26,7 +26,6 @@ const port = process.env.PORT || 3001
 
 const createRole = () => {
   db.role.findAndCountAll().then((obj: any) => {
-    // console.log('---------------------',obj.count);
     if (!obj.count) {
       role.map((rle) => {
         db.role.create(rle)

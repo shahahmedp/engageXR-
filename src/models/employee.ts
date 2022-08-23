@@ -8,7 +8,7 @@ interface EmployeeAttributes {
   lastName: string
   cmpID: string
   email: string
-  phone: number
+  phone: string
 }
 module.exports = (sequelize: any, DataTypes: any) => {
   class Employee
@@ -26,7 +26,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     lastName!: string
     cmpID!: string
     email!: string
-    phone!: number
+    phone!: string
     static associate(models: any) {
       // define association here
       Employee.belongsToMany(models.companies, {
@@ -60,7 +60,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         unique: true,
       },
       phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },

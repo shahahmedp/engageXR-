@@ -6,7 +6,7 @@ interface CompaniesAttributes {
   id?: number
   name: string
   email: string
-  phone: number
+  phone: string
   website: string
 }
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -23,7 +23,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     id!: number
     name!: string
     email!: string
-    phone!: number
+    phone!: string
     website!: string
     static associate(models: any) {
       // define association here
@@ -50,7 +50,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         //unique:true
       },
       phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       website: {
