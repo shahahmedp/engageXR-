@@ -35,10 +35,7 @@ const createRole = () => {
   })
 }
 //routes
-require('./src/routes/auth.routes')(app)
-require('./src/routes/user.routes')(app)
-require('./src/routes/company.routes')(app)
-require('./src/routes/employee.routes')(app)
+require('./src/routes')(app)
 //check the request
 app.get('/role', (req: Request, res: Response) => {
   db.companies
